@@ -14,6 +14,7 @@ args = parser.parse_args()
 
 img = Image.open(args.image).convert('YCbCr')
 name = os.path.splitext(os.path.basename(args.image))[0]
+ext = os.path.splitext(os.path.basename(args.image))[1]
 suffix = args.suffix
 if suffix is not True:
   suffix = 'zoomed'
@@ -37,4 +38,4 @@ out_img_y = Image.fromarray(np.uint8(out_img_y[0]), mode='L')
 
 out_img = Image.merge('YCbCr', [out_img_y, cb, cr]).convert('RGB')  # we merge the output of our network with the upscaled Cb and Cr from before
                                                                     # before converting the result in RGB
-out_img.save(f"{name}_{suffix}")
+out_img.save(f"{name}_{suffix}{ext}")
