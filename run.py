@@ -14,6 +14,7 @@ parser.add_argument('--cuda', action='store_true')
 args = parser.parse_args()
 
 img = Image.open(args.image).convert('YCbCr')
+name = os.path.splitext(os.path.basename(args.image))[0]
 suffix = args.suffix
 if suffix is not True:
   suffix = 'zoomed'
