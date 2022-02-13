@@ -16,7 +16,7 @@ img = Image.open(args.image).convert('YCbCr')
 name = os.path.splitext(os.path.basename(args.image))[0]
 ext = os.path.splitext(os.path.basename(args.image))[1]
 suffix = args.suffix
-if suffix is not True:
+if len(suffix) < 1:
   suffix = 'zoomed'
 img = img.resize((int(img.size[0]*args.zoom_factor), int(img.size[1]*args.zoom_factor)), Image.BICUBIC)  # first, we upscale the image via bicubic interpolation
 y, cb, cr = img.split()
