@@ -8,11 +8,15 @@ from PIL import Image
 parser = argparse.ArgumentParser(description='SRCNN run parameters')
 parser.add_argument('--model', type=str, required=True)
 parser.add_argument('--image', type=str, required=True)
+parser.add_argument('--suffix', type=str, required=False)
 parser.add_argument('--zoom_factor', type=int, required=True)
 parser.add_argument('--cuda', action='store_true')
 args = parser.parse_args()
 
 img = Image.open(args.image).convert('YCbCr')
+suffix = args.suffix
+if suffix is not True:
+  suffix = 'zoomed'
 img = img.resize((int(img.size[0]*args.zoom_factor), int(img.size[1]*args.zoom_factor)), Image.BICUBIC)  # first, we upscale the image via bicubic interpolation
 y, cb, cr = img.split()
 
@@ -33,4 +37,4 @@ out_img_y = Image.fromarray(np.uint8(out_img_y[0]), mode='L')
 
 out_img = Image.merge('YCbCr', [out_img_y, cb, cr]).convert('RGB')  # we merge the output of our network with the upscaled Cb and Cr from before
                                                                     # before converting the result in RGB
-out_img.save(f"zoomed_{args.image}")
+out_img.save(f"{args.image}_{suffix}")
